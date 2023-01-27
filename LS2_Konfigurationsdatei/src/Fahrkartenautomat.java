@@ -16,41 +16,36 @@ class Fahrkartenautomat {
 	
 	public static void begruessung() {
 		System.out.println("Willkommen!\n");
-		System.out.print("Wählen Sie ihre Wunschkarte für Berlin AB aus:\n Kurzstrecke AB [2,00 Euro] (1)\n Einzelfahrschein AB [3,00 Euro] (2)\n Tageskarte AB [8,00 Euro] (3)\n 4-Fahrten-Karte AB [9,40 Euro] (4)\n Bezahlen (9)\n");
+		
 	}
 	
 	public static double fahrkartenbestellungErfassen(Scanner tastatur) {
+		String[] fahrkartenBezeichnung = new String[] {"Einzelfahrschein AB", "Einzelfahrschein BC", "Einzelfahrschein ABC", "Kurzstrecke AB", "Tageskarte AB", "Tageskarte BC", "Tageskarte ABC", "4-Fahrten-Karte AB", "4-Fahrten-Karte BC", "4-Fahrten-Karte ABC", "Kleingruppen-Tageskarte AB", "Kleingruppen-Tageskarte BC", "Kleingruppen-Tageskarte ABC"};
+		double[] fahrkartenPreis = new double[] {3.00D, 3.50D, 3.80D, 2.00D, 8.60D, 9.20D, 10.00D, 9.40D, 12.60D, 13.80D, 25.50D, 26.00D, 26.50D};
 		double zahlungsPuffer = 0;
 		double zwischenPreis = 0;
 		double zuZahlenderBetrag = 0;
 		int anzahlTickets = 0;
 		
+		System.out.print("Wählen Sie ihre Wunschkarte aus:\n");
+		for(int i = 0; i < fahrkartenPreis.length; i++) {
+			System.out.printf("(%3s%2s%30s%2s%4s%3s", i, ")", fahrkartenBezeichnung[i], "[", fahrkartenPreis[i], "EUR]\n");
+		}
+		System.out.printf("(%3s%2s%30s", "100", ")", "Bestellung abschließen.");
 		while(zuZahlenderBetrag == 0) {
 			int i = tastatur.nextInt();
 			
-			switch(i) {
-				case 1:
-					zahlungsPuffer = 2.00D;
-					break;
-				case 2:
-					zahlungsPuffer = 3.00D;
-					break;
-				case 3:
-					zahlungsPuffer = 8.00D;
-					break;
-				case 4:
-					zahlungsPuffer = 9.40D;
-					break;
-				case 9:
-					zuZahlenderBetrag = zwischenPreis;
-					break;
-				default:
-					zuZahlenderBetrag = 0;
-					break;
+			
+			if(i == 100) {
+				zuZahlenderBetrag = zwischenPreis;
+				break;
+			} else {
+				zahlungsPuffer = fahrkartenPreis[i];
 			}
+			
 			if(zuZahlenderBetrag == 0 && zahlungsPuffer == 0) {
-				System.out.print("Bitte 1-4 wählen." + zuZahlenderBetrag);
-			} else if (i != 9) {
+				System.out.print("Bitte Ticket wählen." + zuZahlenderBetrag);
+			} else if (i != 100) {
 				System.out.print("Anzahl der Tickets: ");
 				anzahlTickets = tastatur.nextInt();
 				
@@ -59,7 +54,10 @@ class Fahrkartenautomat {
 					anzahlTickets = tastatur.nextInt();
 				}
 				zwischenPreis += zahlungsPuffer * anzahlTickets;
-				System.out.print("Wählen Sie ihre Wunschkarte für Berlin AB aus:\n Kurzstrecke AB [2,00 Euro] (1)\n Einzelfahrschein AB [3,00 Euro] (2)\n Tageskarte AB [8,00 Euro] (3)\n 4-Fahrten-Karte AB [9,40 Euro] (4)\n Bezahlen (9)\n");
+				System.out.print("Wählen Sie ihre Wunschkarte aus:\n");
+				for(int j = 0; j < fahrkartenPreis.length; j++) {
+					System.out.println("(" + j + ") " + fahrkartenBezeichnung[j] + " [" + fahrkartenPreis[j] + " EUR]");
+				}
 				System.out.print("Zwischenpreis: " + zwischenPreis + " Euro.\n");
 				zahlungsPuffer = 0;
 				
